@@ -109,10 +109,48 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
-
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        board.setViewingPerspective(side);
+        for (int c = 0; c < board.size(); c += 1) {
+            int numAfterInte = 0;
+            int i = 0;
+            for (int r = (board.size() - 2); r >= 0; r -= 1) {
+                Tile t = board.tile(c, r);
+                if (t == null) {
+                    continue;
+                } else {
+                    int flag = 0;
+                    for (i = (r + 1); i < board.size(); i += 1) {
+                        if (board.tile(c, i) == null) {
+                            continue;
+                        } else {
+                            if (board.tile(c, r).value() == board.tile(c, i).value()) {
+                                int numWantToInte = board.tile(c, r).value();
+                                if (numAfterInte == numWantToInte) {
+                                    break;
+                                } else {
+                                    numAfterInte = 2 * board.tile(c, r).value();
+                                    flag = 1;
+                                    score += numAfterInte;
+                                    break;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                    if (flag == 0) {
+                        board.move(c, (i - 1), t);
+                    } else {
+                        board.move(c, i, t);
+                    }
+                    changed = true;
+                }
+            }
+        }
+        board.setViewingPerspective(Side.NORTH);
 
         checkGameOver();
         if (changed) {
@@ -206,7 +244,6 @@ public class Model extends Observable {
                 }
             }
         }
-        
         return false;
     }
 
