@@ -10,6 +10,7 @@ public class SquarePrimesTest {
      * It passes, but the starter code implementation of isPrime
      * is broken. Write your own JUnit Test to try to uncover the bug!
      */
+
     @Test
     public void testSquarePrimesSimple() {
         IntList lst = IntList.of(14, 15, 16, 17, 18);
@@ -20,9 +21,9 @@ public class SquarePrimesTest {
 
     @Test
     public void testSquarePrimes1() {
-        IntList lst = IntList.of(94, 95, 96, 97, 98);
+        IntList lst = IntList.of(1, 2, 3, 4, 6);
         boolean changed = IntListExercises.squarePrimes(lst);
-        assertEquals("94 -> 95 -> 96 -> 9409 -> 98", lst.toString());
+        assertEquals("1 -> 4 -> 9 -> 4 -> 6", lst.toString());
         assertTrue(changed);
     }
 
@@ -31,6 +32,7 @@ public class SquarePrimesTest {
         IntList lst = IntList.of(1, 4, 9, 16, 25);
         boolean changed = IntListExercises.squarePrimes(lst);
         assertEquals("1 -> 4 -> 9 -> 16 -> 25", lst.toString());
-        assertTrue(changed);
+        assertFalse(changed);
     }
+
 }

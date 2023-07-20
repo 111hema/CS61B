@@ -2,8 +2,6 @@ package IntList;
 
 public class IntListExercises {
 
-    public static boolean changed = false;
-
     /**
      * Part A: (Buggy) mutative method that adds a constant C to each
      * element of an IntList
@@ -72,19 +70,15 @@ public class IntListExercises {
     public static boolean squarePrimes(IntList lst) {
         // Base Case: we have reached the end of the list
         if (lst == null) {
-            return changed;
+            return false;
         }
 
         boolean currElemIsPrime = Primes.isPrime(lst.first);
-
-        if (currElemIsPrime == true) {
-            changed = true;
-        }
 
         if (currElemIsPrime) {
             lst.first *= lst.first;
         }
 
-        return squarePrimes(lst.rest);
+        return squarePrimes(lst.rest) || currElemIsPrime;
     }
 }
