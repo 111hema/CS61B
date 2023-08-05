@@ -76,36 +76,47 @@ public class ArrayDeque<Item> {
     }
 
     /** Helper method to remove function. */
-    private void prepRemove() {
-        size -= 1;
-        double spaceUtilization = (double)size / item.length;
-        if (item.length >= 16 && spaceUtilization < 0.25) {
-            resize(item.length / 2);
+    private boolean prepRemove() {
+        if (size == 0) {
+            return false;
+        } else {
+            size -= 1;
+            double spaceUtilization = (double)size / item.length;
+            if (item.length >= 16 && spaceUtilization < 0.25) {
+                resize(item.length / 2);
+            }
+            return true;
         }
     }
 
     /** Removes the first item in the deque. */
     public Item removeFirst() {
-        prepRemove();
-        Item x = item[first];
-        item[first] = null;
-        first = first + 1;
-        if (first > (item.length - 1)) {
-            first = 0;
+        if (prepRemove()){
+            Item x = item[first];
+            item[first] = null;
+            first = first + 1;
+            if (first > (item.length - 1)) {
+                first = 0;
+            }
+            return x;
+        } else {
+            return null;
         }
-        return x;
     }
 
     /** Removes the last item in the deque. */
     public Item removeLast() {
-        prepRemove();
-        Item x = item[last];
-        item[last] = null;
-        last = last - 1;
-        if (last < 0) {
-            last = item.length - 1;
+        if (prepRemove()) {
+            Item x = item[last];
+            item[last] = null;
+            last = last - 1;
+            if (last < 0) {
+                last = item.length - 1;
+            }
+            return x;
+        } else {
+            return null;
         }
-        return x;
     }
 
     /** Returns ture if the deque is empty. */
