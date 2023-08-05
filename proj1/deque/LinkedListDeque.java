@@ -6,16 +6,16 @@ package deque;
     addFirst: The 0th item is sentinel.next. The 0th item.prev is sentinel.
     addLast: The Last item is sentinel.prev. The last item.next is sentinel.
  */
-public class LinkedListDeque<Item> {
-    public ItemNode sentinel;
-    public int size;
+public class LinkedListDeque<T> {
+    private TNode sentinel;
+    private int size;
 
-    private class ItemNode {
-        Item item;
-        ItemNode prev;
-        ItemNode next;
+    private class TNode {
+        T item;
+        TNode prev;
+        TNode next;
 
-        public ItemNode(Item x) {
+        public TNode(T x) {
             item = x;
             prev = null;
             next = null;
@@ -24,7 +24,7 @@ public class LinkedListDeque<Item> {
 
     /** Creates an empty deque. */
     public LinkedListDeque() {
-        sentinel = new ItemNode(null);
+        sentinel = new TNode(null);
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
 
@@ -32,8 +32,8 @@ public class LinkedListDeque<Item> {
     }
 
     /** Inserts X to the front of the deque. */
-    public void addFirst(Item x) {
-        ItemNode newNode = new ItemNode(x);
+    public void addFirst(T x) {
+        TNode newNode = new TNode(x);
         newNode.next = sentinel.next;
         newNode.prev = sentinel;
         sentinel.next.prev = newNode;
@@ -43,8 +43,8 @@ public class LinkedListDeque<Item> {
     }
 
     /** Inserts X to the back of the deque. */
-    public void addLast(Item x) {
-        ItemNode newNode = new ItemNode(x);
+    public void addLast(T x) {
+        TNode newNode = new TNode(x);
         newNode.next = sentinel;
         newNode.prev = sentinel.prev;
         sentinel.prev.next = newNode;
@@ -69,7 +69,7 @@ public class LinkedListDeque<Item> {
 
     /** Prints the item in the deque from first to last, separated by a space. */
     public void printDeque() {
-        ItemNode p = sentinel.next;
+        TNode p = sentinel.next;
         while (p != sentinel) {
             System.out.print(p.item + " ");
             p = p.next;
@@ -77,11 +77,11 @@ public class LinkedListDeque<Item> {
     }
 
     /** Removes the first item of the deque. */
-    public Item removeFirst() {
+    public T removeFirst() {
         if (size == 0) {
             return null;
         } else {
-            Item x = sentinel.next.item;
+            T x = sentinel.next.item;
             sentinel.next = sentinel.next.next;
             sentinel.next.prev = sentinel;
 
@@ -91,11 +91,11 @@ public class LinkedListDeque<Item> {
     }
 
     /** Removes the last item of the deque. */
-    public Item removeLast() {
+    public T removeLast() {
         if (size == 0) {
             return null;
         } else {
-            Item x = sentinel.prev.item;
+            T x = sentinel.prev.item;
             sentinel.prev = sentinel.prev.prev;
             sentinel.prev.next = sentinel;
 
@@ -105,11 +105,11 @@ public class LinkedListDeque<Item> {
     }
 
     /** Returns the ith item of the deque in an iterative way. */
-    public Item get(int i) {
+    public T get(int i) {
         if (i > size - 1) {
             return null;
         } else {
-            ItemNode p = sentinel.next;
+            TNode p = sentinel.next;
 
             for (int x = 0; x < i; x += 1) {
                 p = p.next;
@@ -120,7 +120,7 @@ public class LinkedListDeque<Item> {
     }
 
     /** Helper method to recursively return the ith item of the deque. */
-    private Item recursiveGet(ItemNode curr, int start, int i) {
+    private T recursiveGet(TNode curr, int start, int i) {
         if (start == i) {
             return curr.item;
         } else {
@@ -129,7 +129,7 @@ public class LinkedListDeque<Item> {
     }
 
     /** Returns the ith item of the deque in a recursive way. */
-    public Item getRecursive(int i) {
+    public T getRecursive(int i) {
         return recursiveGet(sentinel.next, 0, i);
     }
 }

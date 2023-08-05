@@ -1,11 +1,11 @@
 package deque;
 
 /** Treat array as circular to implement the deque. */
-public class ArrayDeque<Item> {
-    public Item[] item;
-    public int first;
-    public int last;
-    public int size;
+public class ArrayDeque<T> {
+    private T[] item;
+    private int first;
+    private int last;
+    private int size;
 
     /** Creates an empty deque. */
     /*
@@ -24,7 +24,7 @@ public class ArrayDeque<Item> {
         , to make sure that last keeps track of the last item's index.
      */
     public ArrayDeque() {
-        item = (Item[]) new Object[8];
+        item = (T[]) new Object[8];
         first = 1;
         last = 0;
         size = 0;
@@ -32,7 +32,7 @@ public class ArrayDeque<Item> {
 
     /** Changes the size of the deque. */
     private void resize(int newSize) {
-        Item[] orderedDeque = (Item[]) new Object[item.length];
+        T[] orderedDeque = (T[]) new Object[item.length];
         for (int i = 0; i < size + 1; i += 1) {
             orderedDeque[i] = item[first];
             first = first + 1;
@@ -40,7 +40,7 @@ public class ArrayDeque<Item> {
                 first = 0;
             }
         }
-        Item[] newDeque = (Item[]) new Object[newSize];
+        T[] newDeque = (T[]) new Object[newSize];
         System.arraycopy(orderedDeque, 0, newDeque, 0, size + 1);
         item = newDeque;
         first = 0;
@@ -56,7 +56,7 @@ public class ArrayDeque<Item> {
     }
 
     /** Inserts X in the front of the deque. */
-    public void addFirst(Item x) {
+    public void addFirst(T x) {
         prepAdd();
         first = first - 1;
         if (first < 0) {
@@ -66,7 +66,7 @@ public class ArrayDeque<Item> {
     }
 
     /** Inserts X at the back of the deque. */
-    public void addLast(Item x) {
+    public void addLast(T x) {
         prepAdd();
         last = last + 1;
         if (last > (item.length - 1)) {
@@ -90,9 +90,9 @@ public class ArrayDeque<Item> {
     }
 
     /** Removes the first item in the deque. */
-    public Item removeFirst() {
+    public T removeFirst() {
         if (prepRemove()){
-            Item x = item[first];
+            T x = item[first];
             item[first] = null;
             first = first + 1;
             if (first > (item.length - 1)) {
@@ -105,9 +105,9 @@ public class ArrayDeque<Item> {
     }
 
     /** Removes the last item in the deque. */
-    public Item removeLast() {
+    public T removeLast() {
         if (prepRemove()) {
-            Item x = item[last];
+            T x = item[last];
             item[last] = null;
             last = last - 1;
             if (last < 0) {
@@ -142,7 +142,7 @@ public class ArrayDeque<Item> {
     }
 
     /** Returns the ith item in the deque. */
-    public Item get(int i) {
+    public T get(int i) {
         int index;
         if (i > size - 1) {
             return null;
