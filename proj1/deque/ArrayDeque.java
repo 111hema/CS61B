@@ -31,27 +31,27 @@ public class ArrayDeque<T> {
     }
 
     /** Changes the size of the deque. */
-    private void resize(int newSize) {
+    private void resize(int newSize, int N) {
         T[] orderedDeque = (T[]) new Object[item.length];
-        for (int i = 0; i < size + 1; i += 1) {
+        for (int i = 0; i < N; i += 1) {
             orderedDeque[i] = item[first];
             first = first + 1;
-            if (first > item.length) {
+            if (first == item.length) {
                 first = 0;
             }
         }
         T[] newDeque = (T[]) new Object[newSize];
-        System.arraycopy(orderedDeque, 0, newDeque, 0, size + 1);
+        System.arraycopy(orderedDeque, 0, newDeque, 0, N);
         item = newDeque;
         first = 0;
-        last = size;
+        last = N - 1;
     }
 
     /** Helper method to add function. */
     private void prepAdd() {
         size += 1;
         if (size > item.length) {
-            resize(2 * item.length);
+            resize(2 * item.length, size - 1);
         }
     }
 
@@ -83,7 +83,7 @@ public class ArrayDeque<T> {
             size -= 1;
             double spaceUtilization = (double)size / item.length;
             if (item.length >= 16 && spaceUtilization < 0.25) {
-                resize(item.length / 2);
+                resize(item.length / 2, size + 1);
             }
             return true;
         }
@@ -137,6 +137,10 @@ public class ArrayDeque<T> {
         int p = first;
         for (int i = 0; i < size; i += 1) {
             System.out.print(item[p] + " ");
+            p = p + 1;
+            if (p == item.length) {
+                p = 0;
+            }
         }
         System.out.println();
     }
